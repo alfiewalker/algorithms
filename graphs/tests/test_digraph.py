@@ -1,28 +1,17 @@
-from core.graph_algorithms import ConnectedComponents
-from core.graph import Graph
-import pytest
+from core.algorithms import ConnectedComponents
+from core.digraph import DiGraph
+from core.algorithms import ShortestPathDFS
+from test_data import TestData
+
+# import pytest
 
 """
 To Run:
 pytest -q test_graph.py
 """
-class TestGraph:
+class TestDiGraph:
     def setup_class(self):
-        self.G = Graph(13)
-        G = self.G
-        G.add_edges(0, [6, 2, 1, 5])
-        G.add_edges(1, [0])
-        G.add_edges(2, [0])
-        G.add_edges(3, [5,4])
-        G.add_edges(4, [5,6,3])
-        G.add_edges(5, [3,4,0])
-        G.add_edges(6, [0,4])
-        G.add_edges(7, [8])
-        G.add_edges(8, [7])
-        G.add_edges(9, [11,10,12])
-        G.add_edges(10, [9])
-        G.add_edges(11, [9,12])
-        G.add_edges(12, [11,9])
+        self.G = TestData.create(DiGraph)
 
     def test_should_count_vertices(self):
         """ Count the number of vertices """
@@ -34,11 +23,11 @@ class TestGraph:
 
     def test_should_count_degrees(self):
         """ Count the degrees """
-        assert self.G.degree(9) == 6
+        assert self.G.degree(9) == 3
 
     def test_should_get_max_degrees(self):
         """ Get the max degree """
-        assert self.G.max_degree() == 8
+        assert self.G.max_degree() == 4
 
     def test_should_count_connected_components(self):
         """ Get the connected components """
@@ -48,3 +37,8 @@ class TestGraph:
         component_count = graph_algo.run(self.G)
         # assert
         assert component_count == 4
+
+    def test_should_find_shortest_path_dfs(self):
+        s_dfs = ShortestPathDFS()
+        path = s_dfs.run(self.G, 0, 3)
+        assert len(path)-1 == 2
