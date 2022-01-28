@@ -1,10 +1,16 @@
 from abc import ABC, abstractmethod
 from core.digraph import DiGraph
 
+"""
+    Base class for graph algorithms
+"""
+
 class GraphAlgorithm(ABC):
     [abstractmethod]
-    def run(self, graph:DiGraph):
+
+    def run(self, graph: DiGraph):
         pass
+
 
 class ConnectedComponents(GraphAlgorithm):
     def __init__(self) -> None:
@@ -12,9 +18,7 @@ class ConnectedComponents(GraphAlgorithm):
 
     def run(self, graph: DiGraph):
         count = 0
-        visited = [
-            False for _ in range(graph.vertex_count())
-        ]
+        visited = [False for _ in range(graph.vertex_count())]
 
         for v in range(graph.vertex_count()):
             if not visited[v]:
@@ -22,8 +26,9 @@ class ConnectedComponents(GraphAlgorithm):
                 for edge in edges:
                     visited[edge] = True
                 count += 1
-            
+
         return count
+
 
 class ShortestPathDFS(GraphAlgorithm):
     def __init__(self) -> None:
@@ -45,4 +50,4 @@ class ShortestPathDFS(GraphAlgorithm):
         return shortest
 
     def run(self, graph: DiGraph, start, end):
-        return self ._helper(graph, start, end, [], None)
+        return self._helper(graph, start, end, [], None)
